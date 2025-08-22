@@ -319,17 +319,16 @@ export default function Navbar() {
     setLoading(true);
     try {
       const request = await post('/api/auth/logout');
-      const response = request.data;
-
       if (request.status === 200) {
-        dispatch(Logout());
+        dispatch(Logout()); // clears redux user state
         navigate('/');
-        toast.success(response.message); // Optional success message
+        toast.success(request.data.message);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Logout failed:", error);
+      toast.error("Logout failed");
     } finally {
-      setLoading(false); // Stop loading
+      setLoading(false);
     }
   };
 
